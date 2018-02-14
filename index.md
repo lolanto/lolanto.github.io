@@ -1,5 +1,8 @@
 ## Welcome to GitHub Pages
 
+[Post1](./post1)
+[Post2](./post2)
+
 You can use the [editor on GitHub](https://github.com/lolanto/lolanto.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
