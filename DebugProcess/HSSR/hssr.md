@@ -51,7 +51,7 @@ PSOutput main( VSOutput i ) {
 
 ​	申请大缓冲区，缓冲区中每个像素位置上记录链表节点信息，像素位置本身就是节点的ID号。节点信息包括(片源信息+下一个节点ID)，记为Node Buffer。
 
-​	![1523609602308](G:\毕设相关\周总结\BuildLinkedList.png)
+​	![1523609602308](.\BuildLinkedList.png)
 
 **Figure1: (a)部分为经过当前绘制后Head pointer buffer以及node buffer的情况，可见Head pointer buffer中被绘制位置已经被赋予节点ID，而node buffer中包含了当前被绘制的三个片元的信息，像素位置0,1,2本身就是节点ID；(b)部分黄色三角形片元覆盖之前内容，在node buffer中插入新片元信息，并将next指针指向该位置前一个片元的节点ID，在Head pointer buffer中用新片元的节点ID代替，图片源自[1]**
 
@@ -159,7 +159,7 @@ int2 GetAddress(int addr) {
 
 ​	fragmentDiffuse的宽度与屏幕宽度一致，高度则由占据同一像素位置的片元数量决定。此实现假设一个像素位置上最多会有6个片元，故fragmentDiffuse的高度为 屏幕高度 * 6。
 
-​	![1523626023367](G:\毕设相关\周总结\ArrangeLinkedList.png)
+​	![1523626023367](.\ArrangeLinkedList.png)
 **Figure2: 上图左侧代表排序完成后的，像素位置(x, y)处的链表；右侧为记录排序完成后的信息，假设为fragmentDiffuse缓冲区。**
 
 ​	由上图可见，当需要查询某个像素位置上第n层的像素颜色信息时，即可通过读取(x, y + height * n)位置处的颜色信息获得。第0层信息，由每个像素位置上，最靠近摄像机的片元构成，相当于将当前场景打开深度测试，关闭背面剔除渲染的结果。
@@ -168,7 +168,7 @@ int2 GetAddress(int addr) {
 
 ​	Fragment Depth虽然为深度图，但相比普通深度图，多出了一个通道记录深度信息在(向深处)偏移一段距离后的结果。这样做的理由如下：
 
-​	![1523675485601](G:\毕设相关\周总结\FragmentDepthIllustrate1.png)
+​	![1523675485601](.\FragmentDepthIllustrate1.png)
 
 **Figure3: (a)部分尚未设置thickness，相当于thickness无穷大;(b)部分设置thickness**
 
@@ -338,7 +338,7 @@ float w(float depth, uint level) {
 
 ​	以上遍历过程中，stride大小由当前正在遍历的深度图的mipmap level决定，层级越高stride越大。
 
-![1523690443165](G:\毕设相关\周总结\DepthMipMapIllustrate.png)
+![1523690443165](.\DepthMipMapIllustrate.png)
 
 **Figure4: 在多个mipmap level中穿梭，进行光线追踪的示意图。黄色条带包裹的灰色条带的数量，代表了不同层级的一个像素代表0级图像中的像素的数量，条带的高度表示当前像素上的深度值大小；黑色线条为当前正在处理的光线；由图可见，追踪过程从0级开始，一直往上提高，直到某个层级发生碰撞后，层级开始下降，最终在0级处检测碰撞成功并返回；注意：该图只作示意，数据与当前算法存在差异，图片源自[2]**
 
@@ -353,7 +353,7 @@ float w(float depth, uint level) {
 3. 从四个深度值上，取最小值d_min，同时d_max = d_min + t；将四个像素位置上，所有片元深度满足d >= d_min && d <= d_max的片元，都归纳为一个片元，同时更新f1, f2, f3, f4，指向各自所属像素位置上的下一个片元
 4. 循环步骤3，直到四个像素位置均没有片元方停止
 
-![1523691571894](G:\毕设相关\周总结\ConstructDepthMipmapIllustrate.png)
+![1523691571894](.\ConstructDepthMipmapIllustrate.png)
 
 **Figure5: 上图展示的即为该过程前两部的结果；像素沿垂直方向排布，从左往右深度增加；同一行的多个矩形区域代表了同一像素位置上，不同深度的片元；左边假设为0级，中间为1级，右边为2级，图片源自[3]**
 
@@ -573,7 +573,7 @@ struct RayTracingState {
 * 第9行代码实际上是求x,y分量要分别达到边界需要沿反射方向走多远。比如使用上面的假设，反射光线总会有交点(WIDTH, y)以及(x, HEIGHT)，则分别求出到达两者需要走的距离为dist_screen.xy
 * 第11行代码，从dist_screen中求出最小值，意味着反射光线最先到达的边界点，该点也是屏幕的边界
 
-![1523703256673](G:\毕设相关\周总结\CalcScreenBorder1.png)
+![1523703256673](.\CalcScreenBorder1.png)
 
 **Figure6**
 
@@ -703,7 +703,7 @@ float2 getCurrSSPos(RayTracingState state) {
 
 ​	代码2~5即在求出光线与当前层级经过的像素的边界上的两个交点(t是两个点的插值结果)，下面只列举一种情况：
 
-![1523763724573](G:\毕设相关\周总结\TEntryIllustrate.png)
+![1523763724573](.\TEntryIllustrate.png)
 
 **Figure7: 展示光线与像素求入射交点的过程；P0为光线的起点，P为光线当前位置，P_entry为光线前进方向上进入像素范围的交点，P_exit为光线前进方向上离开像素范围的交点**
 
@@ -758,7 +758,7 @@ $$
 
 ​	`if (sceneDepth.y < rayDepthMin) continue;`当前片元的最深深度还在光线的前方，光线不可能与当前片元碰撞，但可能与之后的片元碰撞，所以跳到下次循环；
 
-​	![1523772766421](G:\毕设相关\周总结\CollisionIllustrate.png)
+​	![1523772766421](.\CollisionIllustrate.png)
 
 **Figure8: 碰撞情况示意图**
 
@@ -796,7 +796,7 @@ $$
 
 ​	acceleration_delay的作用在于，假如之前发生了碰撞，导致当前层级下降，而在之后的检测中发现碰撞失败，又会将层级提高，又进行了与前一次相同的碰撞检测，导致浪费循环次数；
 
-​	![1523774202319](G:\毕设相关\周总结\accelerationDelay.png)
+​	![1523774202319](.\accelerationDelay.png)
 
 **Figure9: acceleration_delay示意图：若光线当前位置p1，于大像素块中发生碰撞，则光线会保留在p1位置，同时光线所在层级下降；下一个循环，P1位置上没有发生碰撞，此时存在acceleration_delay阻止层级的提高而使层级停留在当前状态，并使光线移动至P2处，下一个循环，P2位置上检测到碰撞**
 
