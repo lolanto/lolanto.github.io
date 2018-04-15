@@ -4,4 +4,4 @@
 
 ## [2. Geometry Shader](./GeometryShader.md)
 
-## Debug Experience[->](.DebugProcess/index.md)
+## Debug Experience[->](./DebugProcess/index.md)
