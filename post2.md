@@ -88,3 +88,9 @@
 ### 传递Lambda表达式作为参数
 
 ​	使用**std::function**作为参数类型，声明方式为std::function<*return type* (*parameter list*)>
+
+### static_cast与dynamic_cast
+
+​	两者均可以用于父子指针之间的转换。上行转换即子类指针转换成父类指针是完全可以，安全的；但是下行转换，即父类指针变成子类指针就要注意。static_cast是在编译时进行检查，而dynamic_cast是在运行时进行检查。静态转换假如转换错误，即父类转换成其它子类，那么调用一个父类中没有的方法程序就会崩溃。而动态转换会在运行时进行检查，转换失败会返回void。
+
+​	dynamic_cast做下行转换时，父类必须是纯虚类。
