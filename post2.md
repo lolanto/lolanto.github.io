@@ -312,3 +312,30 @@ void foo(const int& p) {
 ```
 
 需要注意的是，该操作是用来将**const T&**或者**const T***一类的const去掉而使用的，引用和指针指向的实体应该是一个非const得变量；假如使用该操作修改原本就是const的变量，则会产生未定义的结果。因为声明为常量的变量在编译时存储的位置与堆栈上的数据位置不相同。
+
+### Lua的表遍历
+
+lua中可以使用`ipair`对表进行遍历，C中可以使用`lua_next`函数进行遍历。但！LUA**不保证**遍历得到的顺序与表定义时的顺序一致。
+
+### 数组作为函数参数
+
+当数组以值传递的方式作为函数参数时，数组会退化为指针，当我们使用模板的时候将无法进行正确的模板推断。故可以引用的方式传递数组。
+
+```c++
+void func(int arr[]);
+void func(int arr[10]);
+void func(int* arr);
+// 这三者是等价的，前两个arr最终都会变成int* arr
+void func(int (&arr)[]);
+// 此时arr为引用
+```
+
+### 求数组长度
+
+利用模板的自动推断功能在编译器求数组长度
+
+```c++
+template<typename T, int N>
+inline unsigned ArrSize(const T(&arr)[N]) { return N; }
+```
+
