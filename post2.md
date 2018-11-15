@@ -339,3 +339,15 @@ template<typename T, int N>
 inline unsigned ArrSize(const T(&arr)[N]) { return N; }
 ```
 
+### 初始化列表
+
+```c++
+class A {
+    public:
+    float a;
+    float b;
+    A() : b(1.0f), a(2.0f) {}
+}
+```
+
+初始化列表的执行过程由变量的声明顺序决定，上述初始化列表中虽然b在a前，但由于声明时是a在b前，故a会被先初始化，再到b。
