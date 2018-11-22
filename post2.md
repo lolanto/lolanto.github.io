@@ -371,3 +371,11 @@ enum {
 2. & 修饰的函数当且仅当类是 non-const 可访问
 3. && 修饰的函数当且仅当类是 rvalue 可访问
 4. 常见的修饰符 const 表示该函数仅当类是 const 可访问
+
+### std::unique_ptr初始化与参数传递
+
+std::unique_ptr的构造函数只能接收原始指针或者std::unique_ptr&&。这就意味着不可以用一个已经存在的std::unique_ptr初始化另外一个std::unique_ptr。
+
+换言之，当需要传递一个std::unique_ptr作为函数参数时，必须使用std::move将左值变成右值，而传递完后的std::unique_ptr将失去原有指针的所有权。
+
+所以当需要向某个函数传递std::unique_ptr时，要事先把所有涉及到该std::unique_ptr指向对象的设置都处理完，再进行传递。
